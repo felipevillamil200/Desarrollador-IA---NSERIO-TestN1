@@ -1,0 +1,208 @@
+<!-- report/template.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reporte de evaluación de diseño</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #111111;
+      --sub: #555555;
+      --accent: #4f46e5;
+      --muted: #f9fafb;
+      --border: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell;
+      background: var(--bg);
+      color: var(--fg);
+      margin: 0;
+      padding: 28px;
+      line-height: 1.5;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    h1 { font-size: 26px; margin: 0 0 10px; }
+    h2 { font-size: 18px; margin: 0 0 8px; color: var(--accent); }
+    p  { margin: 6px 0; color: var(--sub); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--muted);
+      color: var(--fg);
+      font-weight: 600;
+      font-size: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .score {
+      font-size: 44px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .screenshot {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      display: block;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .muted { color: var(--sub); }
+
+    /* === DIAGRAMA DE BARRAS === */
+    .chart {
+      width: 100%;
+      height: auto;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      background: var(--muted);
+      text-align: center;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 11px;
+      color: var(--sub);
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Evaluación de diseño web</h1>
+    <p><span class="badge">URL</span> {{URL}}</p>
+    <p class="muted">Fecha: {{DATE}}</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Resultado general</h2>
+      <div class="score">{{TOTAL}}</div>
+      <p class="muted">Puntuación total (0–100)</p>
+
+      <!-- Gráfico con separación mejorada -->
+      <div class="chart">
+        <svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gradT" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="100%" stop-color="#818cf8"/>
+            </linearGradient>
+            <linearGradient id="gradC" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#34d399"/>
+            </linearGradient>
+            <linearGradient id="gradL" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f59e0b"/>
+              <stop offset="100%" stop-color="#fbbf24"/>
+            </linearGradient>
+            <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+              <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#00000022"/>
+            </filter>
+          </defs>
+
+          <!-- Barras con gradiente y sombra -->
+          <rect x="20"  y="{{BAR_T_Y}}" width="80" height="{{BAR_T_H}}" fill="url(#gradT)" rx="10" ry="10" filter="url(#shadow)" />
+          <rect x="130" y="{{BAR_C_Y}}" width="80" height="{{BAR_C_H}}" fill="url(#gradC)" rx="10" ry="10" filter="url(#shadow)" />
+          <rect x="240" y="{{BAR_L_Y}}" width="80" height="{{BAR_L_H}}" fill="url(#gradL)" rx="10" ry="10" filter="url(#shadow)" />
+
+          <!-- Etiquetas -->
+          <text x="60"  y="145" text-anchor="middle" font-size="13" fill="#4f46e5">Tipografía ({{T}})</text>
+          <text x="170" y="145" text-anchor="middle" font-size="13" fill="#059669">Color ({{C}})</text>
+          <text x="280" y="145" text-anchor="middle" font-size="13" fill="#d97706">Layout ({{L}})</text>
+
+          <!-- Etiquetas de valor encima de cada barra -->
+          <text x="60"  y="{{BAR_T_Y - 6}}" text-anchor="middle" font-size="12" fill="#111">{{T}}%</text>
+          <text x="170" y="{{BAR_C_Y - 6}}" text-anchor="middle" font-size="12" fill="#111">{{C}}%</text>
+          <text x="280" y="{{BAR_L_Y - 6}}" text-anchor="middle" font-size="12" fill="#111">{{L}}%</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Captura de pantalla</h2>
+      <img class="screenshot" src="{{SCREENSHOT_BASE64}}" alt="captura de la página" />
+      <p class="footer">Vista inicial de la página analizada.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Tipografía</h2>
+    <p class="muted">Familias detectadas, tamaños y jerarquía básica.</p>
+    <table>
+      <thead><tr><th>Familias más usadas</th><th>Ejemplos</th></tr></thead>
+      <tbody>{{TYPO_ROWS}}</tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Color</h2>
+    <p class="muted">Colores de texto/fondo frecuentes y consistencia.</p>
+    <table>
+      <thead><tr><th>FG / BG</th><th>Muestra</th></tr></thead>
+      <tbody>{{COLOR_ROWS}}</tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Layout</h2>
+    <p class="muted">Uso de Grid/Flex/Block (conteo aproximado).</p>
+    <table>
+      <thead><tr><th>Tipo</th><th>Cantidad</th></tr></thead>
+      <tbody>
+        <tr><td>display: grid</td><td>{{LAYOUT_GRID}}</td></tr>
+        <tr><td>display: flex</td><td>{{LAYOUT_FLEX}}</td></tr>
+        <tr><td>display: block</td><td>{{LAYOUT_BLOCK}}</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Recomendaciones</h2>
+    <ul>{{RECOMMENDATIONS}}</ul>
+  </div>
+
+  <div class="footer">Generado automáticamente • {{DATE}}</div>
+</body>
+</html>

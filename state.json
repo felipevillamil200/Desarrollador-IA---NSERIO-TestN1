@@ -1,0 +1,12 @@
+{
+  "context": {
+    "user": {
+      "id": "user-123",
+      "name": "John Doe"
+    },
+    "session": {
+      "id": "session-456",
+      "startTime": "2023-10-01T12:00:00Z"
+    }
+  }
+}

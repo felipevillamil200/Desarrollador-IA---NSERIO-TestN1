@@ -1,0 +1,31 @@
+{
+  "name": "playwright_proyecto_final",
+  "version": "1.0.0",
+  "description": "Proyecto Playwright con herramienta automatizada de evaluación de diseño web.",
+  "main": "server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start:evaluator": "ts-node server-evaluator.ts",
+    "build": "tsc",
+    "analyze": "node dist/server-evaluator.js"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "express": "^5.1.0",
+    "playwright": "^1.55.0",
+    "playwright-core": "^1.55.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.7.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

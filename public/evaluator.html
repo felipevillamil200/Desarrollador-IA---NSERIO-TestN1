@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evaluador de Diseño Web Pro</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background particles */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -100px;
+      right: -100px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      bottom: -80px;
+      left: -80px;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    main {
+      max-width: 680px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 48px 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.6s ease-out;
+      transition: max-width 0.5s ease;
+    }
+
+    main.expanded {
+      max-width: 95%;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .icon-wrapper {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .icon-wrapper svg {
+      width: 40px;
+      height: 40px;
+      stroke: white;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    input[type="url"] {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: white;
+    }
+
+    input[type="url"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    input[type="url"]::placeholder {
+      color: #94a3b8;
+    }
+
+    button {
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .result {
+      margin-top: 32px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .loading {
+      text-align: center;
+      color: #667eea;
+      font-weight: 500;
+      padding: 24px;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(102, 126, 234, 0.2);
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .success-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+      border: 2px solid #10b981;
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+    }
+
+    .success-card h2 {
+      color: #059669;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .score {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 16px 0;
+    }
+
+    .score-label {
+      color: #64748b;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 80vh;
+      min-height: 600px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      margin-top: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .error {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%);
+      border: 2px solid #ef4444;
+      border-radius: 12px;
+      padding: 20px;
+      color: #dc2626;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    @media (max-width: 640px) {
+      main {
+        padding: 32px 24px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .icon-wrapper {
+        width: 64px;
+        height: 64px;
+      }
+
+      .icon-wrapper svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="header">
+      <div class="icon-wrapper">
+        <svg viewBox="0 0 24 24">
+          <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1>Evaluador de Diseño Web</h1>
+      <p class="subtitle">Análisis profesional de tu sitio web en segundos</p>
+    </div>
+
+    <form id="analyzeForm">
+      <div class="input-group">
+        <label for="url">🔗 URL del sitio web</label>
+        <input 
+          id="url" 
+          name="url" 
+          type="url" 
+          placeholder="https://ejemplo.com" 
+          required 
+        />
+      </div>
+      <button type="submit">
+        <span>✨ Analizar Ahora</span>
+      </button>
+    </form>
+
+    <div id="result" class="result"></div>
+  </main>
+
+  <script>
+    const form = document.getElementById('analyzeForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const url = form.url.value.trim();
+
+      if (!url) return;
+
+      resultDiv.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div>
+          <span>Analizando ${url}...</span>
+        </div>
+      `;
+
+      try {
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+
+        const data = await res.json();
+
+        if (!data.ok && data.error) {
+          resultDiv.innerHTML = `
+            <div class="error">
+              <span>❌</span>
+              <span>Error: ${data.error}</span>
+            </div>
+          `;
+          return;
+        }
+
+        resultDiv.innerHTML = `
+          <div class="success-card">
+            <h2>✅ Análisis Completado</h2>
+            <div class="score">${data.totalScore}</div>
+            <div class="score-label">Puntuación Total</div>
+            <iframe src="/results/${data.id}/report.pdf"></iframe>
+          </div>
+        `;
+        
+        // Expandir el contenedor al 95% del ancho
+        document.querySelector('main').classList.add('expanded');
+      } catch (err) {
+        resultDiv.innerHTML = `
+          <div class="error">
+            <span>⚠️</span>
+            <span>Error al analizar: ${err.message}</span>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

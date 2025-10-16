@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "skipLibCheck": true
+  },
+  "include": [
+    "pages/**/*.ts",
+    "tests/**/*.ts",
+    "playwright.config.ts",
+    "server-evaluator.ts",
+    "routes/**/*.ts",
+    "analyzer/**/*.ts",
+    "report/**/*.ts"
+  ]
+}
